@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+# Node JS appplication
+  app:
+    build: .
+    container_name: internal_wallet_app
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/internal_wallet_db?schema=public
+    depends_on:
+      db:
+        condition: service_healthy
+
+# Postgres Database
+  db: 
+    image: postgres:15-alpine
+    container_name: internal_wallet_db
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=internal_wallet_db
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d internal_wallet_db"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    
+volumes:
+  postgres_data:

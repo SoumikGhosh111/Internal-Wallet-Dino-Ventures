@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  moduleFormat="cjs" //to use with commonJS
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+
+
+
+enum AssetType {
+  GOLD_COINS
+  DIAMONDS
+  LOYALTY_POINTS
+}
+
+enum TransactionType {
+  CREDIT
+  DEBIT
+  BONUS
+}
+ 
+
+//User Model
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  // One user can have multiple wallets (one for Gold, one for Diamonds, etc.)
+  wallets   Wallet[]
+}
+
+
+//Wallet Model
+model Wallet {
+  id        String   @id @default(uuid())
+  
+  // Foreign key to User
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  
+  isSystem  Boolean  @default(false) 
+  assetType AssetType 
+  
+  // Financial precision: Decimal(20, 2)
+  balance   Decimal  @default(0.00) @db.Decimal(20, 2)
+  bonus     Decimal  @default(0.00) @db.Decimal(20, 2)
+  
+  updatedAt DateTime @updatedAt
+  transactions Transaction[]
+
+  // Ensures a user cannot have two "GOLD_COINS" wallets
+  @@unique([userId, assetType])
+}
+
+
+//Transaction Model (for audit purposes)
+model Transaction {
+  id            String          @id @default(uuid())
+  walletId      String
+  amount        Decimal         @db.Decimal(20, 2)
+  type          TransactionType
+  description   String?
+  createdAt     DateTime        @default(now())
+
+  wallet        Wallet          @relation(fields: [walletId], references: [id])
+}
+
