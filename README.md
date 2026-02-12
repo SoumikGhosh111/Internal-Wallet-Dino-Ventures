@@ -58,12 +58,49 @@ Start the development server
 npm run dev
 ```
 
-##API Documentation
+## API Documentation
+
+1. Top-Up Wallet
+Endpoint: /api/v1/wallet/top-up
+Description: Purchase assets. Moves funds from the System Treasury to a User's primary balance.
+```bash
+curl -X POST http://localhost:3000/api/v1/wallet/top-up \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user-uuid-123",
+    "assetType": "GOLD_COINS",
+    "amount": 100
+  }'
+```
+
+2. Issue Bonus
+Endpoint: /api/v1/wallet/bonus
+
+Description: Issue incentives. Moves funds from Marketing to the User's bonus balance.
 
 ```bash
-/api/v1/wallet/top-up,POST,Purchase assets (Treasury -> User)
-/api/v1/wallet/bonus,POST,Issue incentives (Marketing -> User Bonus)
-/api/v1/wallet/spend,POST,Purchase items (Uses Bonus first)
+curl -X POST http://localhost:3000/api/v1/wallet/bonus \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user-uuid-123",
+    "assetType": "GOLD_COINS",
+    "amount": 25
+  }'
+```
+
+3. Spend Assets
+Endpoint: /api/v1/wallet/spend
+
+Description: Purchase items. The system automatically exhausts the Bonus balance before touching the Primary balance.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/wallet/spend \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user-uuid-123",
+    "assetType": "GOLD_COINS",
+    "amount": 50
+  }'
 ```
 
 
