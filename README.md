@@ -103,4 +103,13 @@ curl -X POST http://localhost:3000/api/v1/wallet/spend \
   }'
 ```
 
+## 🐳 Deployment (Docker)
+
+To run the entire stack (App + Database) using Docker:
+
+1. Build and start the containers:
+```bash
+docker-compose up --build
+```
+
 
