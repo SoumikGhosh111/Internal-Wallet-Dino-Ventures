@@ -1,6 +1,6 @@
-# Internal Wallet Service
+# Internal Wallet 
 
-Internal Wallet Service is a robust backend solution for managing virtual game assets (Gold, Diamonds, etc.) with a focus on financial integrity, concurrency safety, and high-performance throughput.
+Internal Wallet is a robust backend solution for managing virtual game assets (Gold, Diamonds, etc.) with a focus on financial integrity, concurrency safety, and high-performance throughput.
 
 ## Features
 
@@ -14,7 +14,7 @@ Internal Wallet Service is a robust backend solution for managing virtual game a
 
 ## Prerequisites
 
-* [Node.js](https://nodejs.org/) v20.x or higher
+* [Node.js](https://nodejs.org/) v20.19.0
 * [PostgreSQL](https://www.postgresql.org/) (Database name: `internal_wallet_db`)
 * [Prisma](https://www.prisma.io/)
 
@@ -24,6 +24,7 @@ Use the package manager [npm](https://www.npmjs.com/) to install the dependencie
 
 ```bash
 npm install
+```
 
 ## Setup
 1. Create a .env file in the root directory
@@ -31,6 +32,7 @@ npm install
 ```bash
 DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/internal_wallet_db"
 PORT=3000
+```
 
 
 2. Push the schema and generate the client
@@ -38,12 +40,14 @@ PORT=3000
 ```bash
 npx prisma db push
 npx prisma generate
+```
 
 
 3. Create the System Treasury and test users
 
 ```bash
 npm run seed
+```
 
 
 ## Usage
@@ -52,6 +56,7 @@ Start the development server
 
 ```bash
 npm run dev
+```
 
 ##API Documentation
 
@@ -59,16 +64,17 @@ npm run dev
 /api/v1/wallet/top-up,POST,Purchase assets (Treasury -> User)
 /api/v1/wallet/bonus,POST,Issue incentives (Marketing -> User Bonus)
 /api/v1/wallet/spend,POST,Purchase items (Uses Bonus first)
+```
 
 
-##Example Request
+## Example Request
 
-``bash
+```bash
 {
   "userId": "uuid-here",
   "assetType": "GOLD_COINS",
   "amount": 50
 }
-
+```
 
 
