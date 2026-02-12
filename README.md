@@ -46,7 +46,7 @@ npx prisma generate
 3. Create the System Treasury and test users
 
 ```bash
-npm run seed
+npx prisma db seed
 ```
 
 
