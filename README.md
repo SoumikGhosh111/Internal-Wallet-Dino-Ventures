@@ -104,14 +104,3 @@ curl -X POST http://localhost:3000/api/v1/wallet/spend \
 ```
 
 
-## Example Request
-
-```bash
-{
-  "userId": "uuid-here",
-  "assetType": "GOLD_COINS",
-  "amount": 50
-}
-```
-
-
